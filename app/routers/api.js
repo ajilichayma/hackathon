@@ -1,8 +1,9 @@
 const User = require('../models/user');
 const config = require ('../../config');
+const bcrypt=require('bcrypt-nodejs');
 
-const secretKey = config.secrectKey;
-const jsonwebtoken = require('jsonwebtoken');
+
+const jwt = require('jsonwebtoken');
 
 /*function creteToken(user){
     var token = jasonwebtoken.sign({
@@ -42,6 +43,40 @@ module.exports = function (app, express) {
 
         });
     });
+
+
+
+    api.post('/login', function(req, res) {
+        User.findOne({username: req.body.username},(function (err, userInfos) {
+            if (err) {
+
+                console.log(err)
+
+            } else {
+                if (userInfos != null) {
+                    if (bcrypt.compareSync(req.body.password, userInfos.password)) {
+                        const token = jwt.sign({id: userInfos._id}, req.app.get("secretkey"), {expiresIn: "2h"})
+                        res.json({status: "success", msg: 'user found', data: {user: userInfos, token: token}})
+                    } else {
+                        res.json({status: 'error', msg: 'username or passeword incorect' + err})
+                        console.log(err)
+                        console.log(req.body)
+                    }
+
+                } else {
+                    res.json({status: 'error', msg: 'errrrur' + err})
+                    console.log(err)
+                }
+            }
+
+        }))
+
+    })
+    api.post('/logout',function(req , res) {
+
+        res.status(200).send({ auth: false, token: null });
+
+    })
 
     /*api.post('/login', function (req, res) {
         User.findOne({

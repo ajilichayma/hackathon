@@ -2,6 +2,9 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const morgan = require('morgan');
 const http=require("http");
+const jwt = require ('jsonwebtoken')
+const bcrypt=require('bcrypt-nodejs');
+
 const cors=require("cors")
 //integration of the database
 const config = require("./config");
@@ -41,7 +44,7 @@ app.use(function (err, req, res, next) {
         res.status(500).json({message: "Something looks wrong"});
 });
 
-
+app.set('secretkey','test')
 
 
 var api = require('./app/routers/api')(app, express);
