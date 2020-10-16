@@ -3,7 +3,7 @@ const bcrypt = require ('bcrypt-nodejs')
 const jwt = require ('jsonwebtoken');
 const baseOptions={
     discriminatorKey:'sensortype',
-    collection:'Sensors'
+    collection:'sensor'
 }
 const sensorSchema = mongoose.Schema(
     {

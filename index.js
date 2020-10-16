@@ -2,7 +2,8 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const morgan = require('morgan');
 const http=require("http");
-const cors=require("cors")
+const cors=require("cors");
+
 //integration of the database
 const config = require("./config");
 //connecting to the database
@@ -43,6 +44,7 @@ app.use(function (err, req, res, next) {
 
 
 
+app.set('secretkey','test')
 
 var api = require('./app/routers/api')(app, express);
 const sens=require('./app/routers/sensor')(app,express);
